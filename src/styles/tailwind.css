@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #1a1614;
+  --color-ink-soft: #3a332e;
+  --color-paper: #f5f1ea;
+  --color-paper-warm: #ede6d9;
+  --color-line: #d9d0bc;
+  --color-disabled: #b8afa3;
+  /* Logo gold: use for rules, borders, ornaments, large type */
+  --color-gold: #c19f73;
+  /* Darker gold for SMALL text on paper (meets 4.5:1 contrast) */
+  --color-gold-deep: #86683c;
+
+  /* Second accent: deep forest green + soft sage, taken from the original site's green */
+  --color-forest: #1e3d2c;
+  --color-forest-deep: #142b1f;
+  --color-forest-night: #0d1d14;
+  --color-sage: #8fae96;
+  --color-sage-soft: #dde6da;
+
+  --font-serif: "EB Garamond", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink font-serif antialiased;
+    font-size: 1.125rem;
+    line-height: 1.7;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif font-normal text-ink;
+    letter-spacing: 0.02em;
+  }
+  :focus-visible {
+    outline: 1px solid var(--color-gold-deep);
+    outline-offset: 4px;
+  }
+  ::selection {
+    background: var(--color-gold);
+    color: var(--color-ink);
+  }
+  input,
+  select,
+  textarea {
+    @apply font-serif;
+    border-radius: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+/* Small tracked all-caps sans: nav, labels, buttons */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+@utility caption {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+}
+
+/* Text link with a thin gold underline; fades on hover */
+@utility text-link {
+  border-bottom: 1px solid var(--color-gold);
+  padding-bottom: 2px;
+  transition: opacity 300ms ease-out;
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+/* Form fields: hairline bottom border, no box */
+@utility field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--color-line);
+  padding: 0.6rem 0;
+  transition: border-color 300ms ease-out;
+  &:focus {
+    outline: none;
+    border-bottom-color: var(--color-gold-deep);
+  }
+}
+
+/* ---------- Accessibility menu settings (set on <html> by A11yProvider) ---------- */
+html[data-text="1"] { font-size: 112.5%; }
+html[data-text="2"] { font-size: 125%; }
+html[data-contrast="high"] {
+  --color-ink: #000000;
+  --color-ink-soft: #1a1a1a;
+  --color-gold-deep: #5a4216;
+  --color-line: #7d745f;
+  --color-paper: #ffffff;
+  --color-paper-warm: #f2eee4;
+}
+html[data-links="underline"] a { text-decoration: underline; text-underline-offset: 3px; }
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] *::before,
+html[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* ---------- Service flip cards ---------- */
+@layer components {
+  .flip { perspective: 1400px; height: 100%; }
+  .flip-inner {
+    height: 100%;
+    display: grid;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 700ms ease-out;
+  }
+  .flip[data-flipped="true"] .flip-inner { transform: rotateY(180deg); }
+    height: 100%;
+  .flip-face { grid-area: 1 / 1; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+  .flip-back { transform: rotateY(180deg); }
+}

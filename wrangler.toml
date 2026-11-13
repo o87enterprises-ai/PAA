@@ -1,0 +1,4 @@
+name = "paa"
+compatibility_date = "2026-11-01"
+# Cloudflare Pages: static build output of `npm run build`
+pages_build_output_dir = "./dist"
